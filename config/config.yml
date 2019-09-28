@@ -1,0 +1,13 @@
+http:
+  listenAddr: ":8090"
+
+release:
+  releaseVersion: "@RELEASE_VERSION@1.2"
+  releaseTime: "@RELEASE_TIME@1.2"
+  YunPianAppKey: "af2b28c3ff9f5122389f14a0ba6f2822"
+
+database:
+  url: root:root@/account?charset=utf8&parseTime=True&loc=Local
+  maxIdle: 50
+  maxActive: 100
+  logMode: true
