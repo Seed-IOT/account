@@ -33,18 +33,15 @@ curl -XPUT -H 'Content-Type: application/json' http://localhost:9200/_all/_setti
 
 ## 接口文档
 
-安装swagger
+启动项目后
 
-```
-go get github.com/swaggo/swag/cmd/swag
-```
-运行
-
-```
-swag init
-```
-
-地址
 ```
 http://localhost:8080/swagger/index.html
 ```
+
+更新文档
+
+```
+swag init -g ./cmd/main.go
+```
+
