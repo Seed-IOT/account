@@ -7,6 +7,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//
+// @Summary Add a new pet to the store
+// @Description get string by ID
+// @Accept  json
+// @Produce  json
+// @Param   some_id     path    int     true        "Some ID"
+// @Success 200 {string} string	"ok"
+// @Router /testapi/get-string-by-int/{some_id} [get]
 func (srv *server) Login(c *gin.Context) {
 	c.Writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 
