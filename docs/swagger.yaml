@@ -1,35 +1,38 @@
-basePath: /v2
-host: petstore.swagger.io
+definitions:
+  web.LoginParames:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
 info:
-  contact:
-    email: support@swagger.io
-    name: API Support
-    url: http://www.swagger.io/support
-  description: kylewang.
+  contact: {}
+  description: Seed-IOT
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: http://swagger.io/terms/
-  title: Swagger Example API
+  title: account api
   version: "1.0"
 paths:
-  /testapi/get-string-by-int/{some_id}:
-    get:
+  /account/login:
+    post:
       consumes:
       - application/json
-      description: get string by ID
+      description: 账号密码登录
+      operationId: Login
       parameters:
-      - description: Some ID
-        in: path
-        name: some_id
+      - description: 用户登录
+        in: body
+        name: body
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/web.LoginParames'
+          type: object
       produces:
       - application/json
-      responses:
-        "200":
-          description: ok
-          schema:
-            type: string
-      summary: Add a new pet to the store
+      summary: Login
 swagger: "2.0"

@@ -7,21 +7,31 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//
-// @Summary Add a new pet to the store
-// @Description get string by ID
+// LoginParames 登录参数
+type LoginParames struct {
+	Password string `json:"password" xml:"password" binding:"required"`
+	Username string `json:"username" xml:"username" binding:"required"`
+}
+
+// Login
+// @Summary Login
+// @Description 账号密码登录
+// @ID Login
 // @Accept  json
 // @Produce  json
-// @Param   some_id     path    int     true        "Some ID"
-// @Success 200 {string} string	"ok"
-// @Router /testapi/get-string-by-int/{some_id} [get]
+// @Param body body web.LoginParames true "用户登录"
+// @Router /account/login [post]
 func (srv *server) Login(c *gin.Context) {
 	c.Writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 
 	httpError := new(constant.Error)
 
-	username := c.PostForm("username")
-	password := c.PostForm("password")
+	param := &LoginParames{}
+	c.Bind(&param)
+
+	username := param.Username
+	password := param.Password
+
 	var userInfo, err = srv.service.UserLogin(username, password)
 	returnJSON := baseReturn{}
 	if err == nil {
@@ -35,8 +45,9 @@ func (srv *server) Login(c *gin.Context) {
 
 		returnJSON.Data = jsonBytes
 	} else {
-		returnJSON.Code = 500
-		returnJSON.Message = "ERROR"
+		httpErrorData, _ := err.UnmarshalJSON()
+		returnJSON.Code = httpErrorData.Code
+		returnJSON.Message = httpErrorData.Message
 	}
 	c.JSON(200, returnJSON)
 }

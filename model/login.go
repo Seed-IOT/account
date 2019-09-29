@@ -57,9 +57,10 @@ func createToken(UID string) (string, error) {
 }
 
 // UserLogin 登录方法
-func (srv *Service) UserLogin(username string, password string) (UserLoginReturn, error) {
+func (srv *Service) UserLogin(username string, password string) (UserLoginReturn, *constant.Error) {
 	// 查询数据库
 	var userinfo UserInfo
+	errData := new(constant.Error)
 	srv.DB.First(&userinfo, "username = ?", username)
 
 	if strings.EqualFold(userinfo.Username, username) {
@@ -69,14 +70,16 @@ func (srv *Service) UserLogin(username string, password string) (UserLoginReturn
 			tokenString, err := createToken(string(userinfo.UID))
 
 			if err != nil {
-				return UserLoginReturn{}, errors.New("ERROR")
+				errData.Code = constant.UNKNOWN_ERROR
+				return UserLoginReturn{}, errData
 			}
 			data := UserLoginReturn{Token: tokenString, UID: userinfo.UID}
 			return data, nil
 
 		}
 	}
-	return UserLoginReturn{}, errors.New("ERROR")
+	errData.Code = constant.USER_OR_PASSWORD_ERROR
+	return UserLoginReturn{}, errData
 }
 
 func typeof(v interface{}) string {
