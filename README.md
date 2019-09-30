@@ -1,6 +1,15 @@
 # 用户中心
 > 用户中心，用于管理用户，提供一系列服务，例如SSO、OAuth等
 
+## TODO
+
+- [x] Login Api
+- [ ] Phone Login Api
+- [ ] User Table
+- [ ] GetCode Api
+- [ ] Update User Info Api
+- [ ] GDPR Delete User
+
 ## 依赖
 
 * ELK（loadsh暂时不需要）

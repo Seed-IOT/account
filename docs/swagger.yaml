@@ -9,6 +9,15 @@ definitions:
     - password
     - username
     type: object
+  web.baseReturn:
+    properties:
+      code:
+        type: integer
+      data:
+        type: string
+      message:
+        type: string
+    type: object
 info:
   contact: {}
   description: Seed-IOT
@@ -34,5 +43,10 @@ paths:
           type: object
       produces:
       - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/web.baseReturn'
       summary: Login
 swagger: "2.0"

@@ -1,5 +1,5 @@
 http:
-  listenAddr: ":8090"
+  listenAddr: ":8080"
 
 release:
   releaseVersion: "@RELEASE_VERSION@1.2"

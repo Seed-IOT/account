@@ -20,6 +20,7 @@ type LoginParames struct {
 // @Accept  json
 // @Produce  json
 // @Param body body web.LoginParames true "用户登录"
+// @Success 200 {object} baseReturn "ok"
 // @Router /account/login [post]
 func (srv *server) Login(c *gin.Context) {
 	c.Writer.Header().Set("Content-Type", "application/json; charset=utf-8")

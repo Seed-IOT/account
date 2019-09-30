@@ -33,7 +33,15 @@
                             "$ref": "#/definitions/web.LoginParames"
                         }
                     }
-                ]
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/web.baseReturn"
+                        }
+                    }
+                }
             }
         }
     },
@@ -49,6 +57,20 @@
                     "type": "string"
                 },
                 "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "web.baseReturn": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "message": {
                     "type": "string"
                 }
             }
