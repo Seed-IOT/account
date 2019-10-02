@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"reflect"
 	"strings"
 	"time"
 
@@ -33,7 +32,29 @@ type UserInfo struct {
 	Mobile   string
 }
 
-func createToken(UID string) (string, error) {
+// ParseToken 1
+func ParseToken(Token string) (jwt.MapClaims, error) {
+	token, err := jwt.Parse(Token, func(token *jwt.Token) (interface{}, error) {
+		// Don't forget to validate the alg is what you expect:
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+		}
+		return HmacSampleSecret, nil
+	})
+
+	if err != nil {
+		// 错误
+		return jwt.MapClaims{}, errors.New("error")
+	}
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return jwt.MapClaims{}, errors.New("error")
+	}
+	return claims, nil
+}
+
+// CreateToken 1
+func CreateToken(UID string) (string, error) {
 	jti, err := uuid.NewV4()
 	if err != nil {
 		return "", errors.New("ERROR")
@@ -67,7 +88,7 @@ func (srv *Service) UserLogin(username string, password string) (UserLoginReturn
 		passwordMd5 := fmt.Sprintf("%x", md5.Sum([]byte(password)))
 		if strings.EqualFold(userinfo.Password, passwordMd5) {
 			// 密码相同，签发token
-			tokenString, err := createToken(string(userinfo.UID))
+			tokenString, err := CreateToken(string(userinfo.UID))
 
 			if err != nil {
 				errData.Code = constant.UNKNOWN_ERROR
@@ -82,9 +103,9 @@ func (srv *Service) UserLogin(username string, password string) (UserLoginReturn
 	return UserLoginReturn{}, errData
 }
 
-func typeof(v interface{}) string {
-	return reflect.TypeOf(v).String()
-}
+// func typeof(v interface{}) string {
+// 	return reflect.TypeOf(v).String()
+// }
 
 // MobileLogin 手机登录
 func (srv *Service) MobileLogin(mobile string, code string) (UserLoginReturn, *constant.Error) {
@@ -114,7 +135,7 @@ func (srv *Service) MobileLogin(mobile string, code string) (UserLoginReturn, *c
 				srv.DB.Create(&userinfo)
 			}
 
-			tokenString, _ := createToken(string(userinfo.UID))
+			tokenString, _ := CreateToken(string(userinfo.UID))
 			data := UserLoginReturn{Token: tokenString, UID: userinfo.UID}
 			return data, nil
 		}

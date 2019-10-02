@@ -1,7 +1,7 @@
 package model
 
-// TypeApp 表 用来存储app
-type TypeApp struct {
+// AppInfo 表 用来存储app
+type AppInfo struct {
 	AppID      uint `gorm:"primary_key"`
 	AppSecret  string
 	UserDomain string

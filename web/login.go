@@ -13,6 +13,18 @@ type LoginParames struct {
 	Username string `json:"username" xml:"username" binding:"required"`
 }
 
+// MobileLoginParames 登录参数
+type MobileLoginParames struct {
+	Mobile string `json:"mobile" xml:"mobile" binding:"required"`
+	Code   string `json:"code" xml:"code" binding:"required"`
+}
+
+// GetCodeParam 登录参数
+type GetCodeParam struct {
+	Mobile   string `json:"mobile" xml:"mobile" binding:"required"`
+	CodeType string `json:"codeType" xml:"codeType" binding:"required"`
+}
+
 // Login
 // @Summary Login
 // @Description 账号密码登录
@@ -27,7 +39,7 @@ func (srv *server) Login(c *gin.Context) {
 
 	httpError := new(constant.Error)
 
-	param := &LoginParames{}
+	param := LoginParames{}
 	c.Bind(&param)
 
 	username := param.Username
@@ -53,13 +65,26 @@ func (srv *server) Login(c *gin.Context) {
 	c.JSON(200, returnJSON)
 }
 
+// Mobile Login
+// @Summary Mobile Login
+// @Description 验证码登录
+// @ID Mobile Login
+// @Accept  json
+// @Produce  json
+// @Param body body web.MobileLoginParames true "用户登录"
+// @Success 200 {object} baseReturn "ok"
+// @Router /account/mobileLogin [post]
 func (srv *server) MobileLogin(c *gin.Context) {
 	c.Writer.Header().Set("Content-Type", "application/json; charset=utf-8")
 
 	httpError := new(constant.Error)
 
-	mobile := c.PostForm("mobile")
-	code := c.PostForm("code")
+	param := MobileLoginParames{}
+
+	c.Bind(&param)
+
+	mobile := param.Mobile
+	code := param.Code
 	var userInfo, err = srv.service.MobileLogin(mobile, code)
 	returnJSON := baseReturn{}
 	if err == nil {
@@ -82,10 +107,24 @@ func (srv *server) MobileLogin(c *gin.Context) {
 	}
 }
 
+// Get Code
+// @Summary Get Code
+// @Description 获取验证码
+// @ID Get Code
+// @Accept  json
+// @Produce  json
+// @Param body body web.GetCodeParam true "获取验证码"
+// @Success 200 {object} baseReturn "ok"
+// @Router /account/getCode [post]
 func (srv *server) GetCode(c *gin.Context) {
 	c.Writer.Header().Set("Content-Type", "application/json; charset=utf-8")
-	codeType := c.PostForm("codeType")
-	mobile := c.PostForm("mobile")
+
+	param := GetCodeParam{}
+
+	c.Bind(&param)
+
+	codeType := param.CodeType
+	mobile := param.Mobile
 	var codeData, err = srv.service.GetCode(mobile, codeType)
 	returnJSON := baseReturn{}
 	if err == nil {

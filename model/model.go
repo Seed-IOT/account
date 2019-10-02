@@ -60,7 +60,7 @@ func newDB(dbCfg *config.Database) (*gorm.DB, error) {
 
 	db.LogMode(dbCfg.LogMode)
 
-	db.AutoMigrate(&TypeApp{})
+	db.AutoMigrate(&AppInfo{})
 	db.AutoMigrate(&UserInfo{})
 
 	// 检查表是否存在，否则创建

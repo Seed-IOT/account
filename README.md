@@ -4,11 +4,12 @@
 ## TODO
 
 - [x] Login Api
-- [ ] Phone Login Api
-- [ ] User Table
-- [ ] GetCode Api
+- [x] Phone Login Api
+- [x] User Table
+- [x] GetCode Api
 - [ ] Update User Info Api
 - [ ] GDPR Delete User
+- [ ] 统一参数校验
 
 ## 依赖
 

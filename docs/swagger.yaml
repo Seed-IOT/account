@@ -1,4 +1,14 @@
 definitions:
+  web.GetCodeParam:
+    properties:
+      codeType:
+        type: string
+      mobile:
+        type: string
+    required:
+    - codeType
+    - mobile
+    type: object
   web.LoginParames:
     properties:
       password:
@@ -8,6 +18,16 @@ definitions:
     required:
     - password
     - username
+    type: object
+  web.MobileLoginParames:
+    properties:
+      code:
+        type: string
+      mobile:
+        type: string
+    required:
+    - code
+    - mobile
     type: object
   web.baseReturn:
     properties:
@@ -27,6 +47,28 @@ info:
   title: account api
   version: "1.0"
 paths:
+  /account/getCode:
+    post:
+      consumes:
+      - application/json
+      description: 获取验证码
+      operationId: Get Code
+      parameters:
+      - description: 获取验证码
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/web.GetCodeParam'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/web.baseReturn'
+      summary: Get Code
   /account/login:
     post:
       consumes:
@@ -49,4 +91,26 @@ paths:
           schema:
             $ref: '#/definitions/web.baseReturn'
       summary: Login
+  /account/mobileLogin:
+    post:
+      consumes:
+      - application/json
+      description: 验证码登录
+      operationId: Mobile Login
+      parameters:
+      - description: 用户登录
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/web.MobileLoginParames'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/web.baseReturn'
+      summary: Mobile Login
 swagger: "2.0"
