@@ -1,4 +1,25 @@
 definitions:
+  constant.BaseReturn:
+    properties:
+      code:
+        type: integer
+      data:
+        type: string
+      message:
+        type: string
+    type: object
+  web.BindDevicesParames:
+    properties:
+      snos:
+        items:
+          type: string
+        type: array
+      uid:
+        type: string
+    required:
+    - snos
+    - uid
+    type: object
   web.GetCodeParam:
     properties:
       codeType:
@@ -29,15 +50,6 @@ definitions:
     - code
     - mobile
     type: object
-  web.baseReturn:
-    properties:
-      code:
-        type: integer
-      data:
-        type: string
-      message:
-        type: string
-    type: object
 info:
   contact: {}
   description: Seed-IOT
@@ -47,6 +59,28 @@ info:
   title: account api
   version: "1.0"
 paths:
+  /account/bindings:
+    post:
+      consumes:
+      - application/json
+      description: 绑定设备
+      operationId: BindDevices
+      parameters:
+      - description: 用户登录
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/web.BindDevicesParames'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/constant.BaseReturn'
+      summary: BindDevices
   /account/getCode:
     post:
       consumes:
@@ -67,7 +101,7 @@ paths:
         "200":
           description: ok
           schema:
-            $ref: '#/definitions/web.baseReturn'
+            $ref: '#/definitions/constant.BaseReturn'
       summary: Get Code
   /account/login:
     post:
@@ -89,7 +123,7 @@ paths:
         "200":
           description: ok
           schema:
-            $ref: '#/definitions/web.baseReturn'
+            $ref: '#/definitions/constant.BaseReturn'
       summary: Login
   /account/mobileLogin:
     post:
@@ -111,6 +145,6 @@ paths:
         "200":
           description: ok
           schema:
-            $ref: '#/definitions/web.baseReturn'
+            $ref: '#/definitions/constant.BaseReturn'
       summary: Mobile Login
 swagger: "2.0"

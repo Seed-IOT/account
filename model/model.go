@@ -74,7 +74,7 @@ func initDB(url string) (*gorm.DB, error) {
 	re3, _ := regexp.Compile(`\@\/(.*?)\?`)
 	rep := re3.ReplaceAllString(url, "@/sys?")
 	basedb, err := sql.Open("mysql", rep)
-	stmt, err := basedb.Prepare("CREATE DATABASE  IF NOT EXISTS `account`")
+	stmt, err := basedb.Prepare("CREATE DATABASE  IF NOT EXISTS `seed`")
 	stmt.Exec()
 	basedb.Close()
 	db, err := gorm.Open("mysql", url)

@@ -19,6 +19,7 @@ func (srv *server) routes() http.Handler {
 	srv.router.POST("account/login", srv.Login)
 	srv.router.POST("account/getCode", srv.GetCode)
 	srv.router.Use(md.Authorize())
+	srv.router.POST("account/bindings", srv.BindDevices)
 	srv.router.GET("account/version/:name", srv.Version)
 
 	//Declare web routing table at here.

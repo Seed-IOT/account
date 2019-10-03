@@ -11,6 +11,39 @@
         "version": "1.0"
     },
     "paths": {
+        "/account/bindings": {
+            "post": {
+                "description": "绑定设备",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "BindDevices",
+                "operationId": "BindDevices",
+                "parameters": [
+                    {
+                        "description": "用户登录",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/web.BindDevicesParames"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "$ref": "#/definitions/constant.BaseReturn"
+                        }
+                    }
+                }
+            }
+        },
         "/account/getCode": {
             "post": {
                 "description": "获取验证码",
@@ -38,7 +71,7 @@
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/web.baseReturn"
+                            "$ref": "#/definitions/constant.BaseReturn"
                         }
                     }
                 }
@@ -71,7 +104,7 @@
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/web.baseReturn"
+                            "$ref": "#/definitions/constant.BaseReturn"
                         }
                     }
                 }
@@ -104,7 +137,7 @@
                     "200": {
                         "description": "ok",
                         "schema": {
-                            "$ref": "#/definitions/web.baseReturn"
+                            "$ref": "#/definitions/constant.BaseReturn"
                         }
                     }
                 }
@@ -112,6 +145,38 @@
         }
     },
     "definitions": {
+        "constant.BaseReturn": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "web.BindDevicesParames": {
+            "type": "object",
+            "required": [
+                "snos",
+                "uid"
+            ],
+            "properties": {
+                "snos": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "uid": {
+                    "type": "string"
+                }
+            }
+        },
         "web.GetCodeParam": {
             "type": "object",
             "required": [
@@ -153,20 +218,6 @@
                     "type": "string"
                 },
                 "mobile": {
-                    "type": "string"
-                }
-            }
-        },
-        "web.baseReturn": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "integer"
-                },
-                "data": {
-                    "type": "string"
-                },
-                "message": {
                     "type": "string"
                 }
             }

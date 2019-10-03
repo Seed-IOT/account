@@ -23,15 +23,6 @@ type UserLoginReturn struct {
 	UID   string
 }
 
-// UserInfo 用户表
-type UserInfo struct {
-	UID      string `gorm:"primary_key"`
-	Username string
-	Nickname string
-	Password string
-	Mobile   string
-}
-
 // ParseToken 1
 func ParseToken(Token string) (jwt.MapClaims, error) {
 	token, err := jwt.Parse(Token, func(token *jwt.Token) (interface{}, error) {
@@ -128,6 +119,7 @@ func (srv *Service) MobileLogin(mobile string, code string) (UserLoginReturn, *c
 				var userinfo UserInfo
 
 				userinfo.Mobile = mobile
+				userinfo.Username = mobile
 
 				jti, _ := uuid.NewV4()
 				userinfo.UID = jti.String()

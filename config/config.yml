@@ -7,7 +7,7 @@ release:
   YunPianAppKey: "af2b28c3ff9f5122389f14a0ba6f2822"
 
 database:
-  url: root:root@/account?charset=utf8&parseTime=True&loc=Local
+  url: root:root@/seed?charset=utf8&parseTime=True&loc=Local
   maxIdle: 50
   maxActive: 100
   logMode: true

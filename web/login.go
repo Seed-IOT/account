@@ -32,7 +32,7 @@ type GetCodeParam struct {
 // @Accept  json
 // @Produce  json
 // @Param body body web.LoginParames true "用户登录"
-// @Success 200 {object} baseReturn "ok"
+// @Success 200 {object} constant.BaseReturn "ok"
 // @Router /account/login [post]
 func (srv *server) Login(c *gin.Context) {
 	c.Writer.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -46,7 +46,7 @@ func (srv *server) Login(c *gin.Context) {
 	password := param.Password
 
 	var userInfo, err = srv.service.UserLogin(username, password)
-	returnJSON := baseReturn{}
+	returnJSON := constant.BaseReturn{}
 	if err == nil {
 		jsonBytes, _ := json.Marshal(userInfo)
 
@@ -72,7 +72,7 @@ func (srv *server) Login(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param body body web.MobileLoginParames true "用户登录"
-// @Success 200 {object} baseReturn "ok"
+// @Success 200 {object} constant.BaseReturn "ok"
 // @Router /account/mobileLogin [post]
 func (srv *server) MobileLogin(c *gin.Context) {
 	c.Writer.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -86,7 +86,7 @@ func (srv *server) MobileLogin(c *gin.Context) {
 	mobile := param.Mobile
 	code := param.Code
 	var userInfo, err = srv.service.MobileLogin(mobile, code)
-	returnJSON := baseReturn{}
+	returnJSON := constant.BaseReturn{}
 	if err == nil {
 		jsonBytes, _ := json.Marshal(userInfo)
 
@@ -114,7 +114,7 @@ func (srv *server) MobileLogin(c *gin.Context) {
 // @Accept  json
 // @Produce  json
 // @Param body body web.GetCodeParam true "获取验证码"
-// @Success 200 {object} baseReturn "ok"
+// @Success 200 {object} constant.BaseReturn "ok"
 // @Router /account/getCode [post]
 func (srv *server) GetCode(c *gin.Context) {
 	c.Writer.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -126,7 +126,7 @@ func (srv *server) GetCode(c *gin.Context) {
 	codeType := param.CodeType
 	mobile := param.Mobile
 	var codeData, err = srv.service.GetCode(mobile, codeType)
-	returnJSON := baseReturn{}
+	returnJSON := constant.BaseReturn{}
 	if err == nil {
 		jsonBytes, jsonErr := json.Marshal(codeData)
 		if jsonErr == nil {
@@ -147,10 +147,4 @@ func (srv *server) GetCode(c *gin.Context) {
 	returnJSON.Message = errData.Message
 
 	c.JSON(200, returnJSON)
-}
-
-type baseReturn struct {
-	Code    int             `json:"code"`
-	Message string          `json:"message"`
-	Data    json.RawMessage `json:"data"`
 }
